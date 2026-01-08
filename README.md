@@ -1,4 +1,4 @@
-Distributed Task Scheduler (Backend-Only)
+**Distributed Task Scheduler (Backend-Only)**
 
 A backend-first distributed task scheduling system built with FastAPI, relational persistence, Redis-based queuing, and worker execution — inspired by real-world orchestration systems like Airflow, Celery, and Temporal.
 
