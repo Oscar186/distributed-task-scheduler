@@ -1,10 +1,10 @@
-🧠 Distributed Task Scheduler (Backend-Only)
+Distributed Task Scheduler (Backend-Only)
 
 A backend-first distributed task scheduling system built with FastAPI, relational persistence, Redis-based queuing, and worker execution — inspired by real-world orchestration systems like Airflow, Celery, and Temporal.
 
 This project focuses on correctness, reliability, and system design, intentionally excluding a frontend UI.
 
-📌 Project Goals
+Project Goals
 
 -- Build a persistent, reliable task scheduler
 
@@ -20,61 +20,7 @@ This project focuses on correctness, reliability, and system design, intentional
 
     --- Demonstrate production-grade backend architecture
 
-🏗️ System Architecture
-High-Level Architecture Diagram
-                    ┌────────────┐
-                    │   Client   │
-                    │ (API Call) │
-                    └─────┬──────┘
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │   FastAPI Server │
-                 │  (Task API Layer)│
-                 └─────┬────────────┘
-                       │
-         Create / Query│
-                       ▼
-                 ┌──────────────────┐
-                 │   Database (DB)  │
-                 │  Tasks Table     │
-                 │  - id            │
-                 │  - name          │
-                 │  - status        │
-                 │  - run_at        │
-                 │  - payload       │
-                 │  - timestamps    │
-                 └─────┬────────────┘
-                       │
-        Poll scheduled │
-        tasks          │
-                       ▼
-              ┌─────────────────────┐
-              │  Scheduler Engine   │
-              │ (Background Process)│
-              └─────┬───────────────┘
-                    │
-      Enqueue ready │
-      task IDs      ▼
-              ┌─────────────────────┐
-              │       Redis         │
-              │   (Task Queue)      │
-              └─────┬───────────────┘
-                    │
-       Consume tasks│
-                    ▼
-              ┌─────────────────────┐
-              │      Worker(s)      │
-              │  (Execution Layer)  │
-              └─────┬───────────────┘
-                    │
-        Update task │
-        status      ▼
-                 ┌──────────────────┐
-                 │   Database (DB)  │
-                 │ RUNNING / SUCCESS│
-                 │ FAILED           │
-                 └──────────────────┘
+
 
 🧩 Component Responsibilities
 1️⃣ FastAPI (API Layer)
@@ -137,48 +83,6 @@ Periodically:
 
 --> Handles retries and failures
 
-🔄 Task Lifecycle
-PENDING
-   │
-   ├── (run_at provided)
-   ▼
-SCHEDULED
-   │
-   ├── Scheduler picks up
-   ▼
-RUNNING
-   │
-   ├── Execution success
-   ▼
-SUCCESS
-
-RUNNING
-   │
-   ├── Execution failure
-   ▼
-FAILED
-
-📁 Project Structure
-app/
-├── __init__.py
-├── main.py                 # FastAPI entry point
-├── database.py             # DB connection/session
-├── models.py               # SQLAlchemy models
-├── schemas.py              # Pydantic schemas
-│
-├── routes/
-│   └── tasks.py            # Task APIs
-│
-├── utils/
-│   ├── redis_client.py     # Redis connection helper
-│   └── config.py           # Config/constants
-│
-├── scheduler/
-│   └── task_scheduler.py   # DB polling & enqueue logic
-│
-├── worker/
-│   ├── worker.py           # Task execution engine
-│   └── task_registry.py    # Task-function mapping
 
 🚀 API Overview
 Create Task
@@ -195,7 +99,7 @@ POST /tasks/
 Get Task Status
 GET /tasks/{task_id}
 
-🧠 Design Principles:
+Design Principles:
 
 -- Backend-first by design
 
