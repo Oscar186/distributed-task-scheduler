@@ -1,4 +1,3 @@
-# check_redis.py
 import redis
 
 try:
