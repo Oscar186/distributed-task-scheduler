@@ -1,10 +1,11 @@
 from datetime import datetime
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 from pydantic import BaseModel
 
 class TaskCreate(BaseModel):
     name: str
-    payload: Optional[Dict] = None
+    task_type: str            # 👈 REQUIRED
+    payload: Optional[Dict[str, Any]] = None
     run_at: Optional[datetime] = None
 
 

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 
 from app.database import get_db
-from app.models import Task
+from app.models.job import Job
 from app.schemas import TaskCreate, TaskResponse
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
@@ -15,11 +15,12 @@ router = APIRouter(prefix="/tasks", tags=["Tasks"])
 def create_task(task: TaskCreate, db: Session = Depends(get_db)):
     status = "SCHEDULED" if task.run_at else "PENDING"
 
-    new_task = Task(
+    new_task = Job(
         name=task.name,
+        task_type=task.task_type,   # 👈 FIX
         payload=task.payload,
         run_at=task.run_at,
-        status=status
+        status="PENDING"
     )
 
     db.add(new_task)
@@ -31,7 +32,7 @@ def create_task(task: TaskCreate, db: Session = Depends(get_db)):
 
 @router.get("/{task_id}", response_model=TaskResponse)
 def get_task(task_id: int, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = db.query(Job).filter(Job.id == task_id).first()
 
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")

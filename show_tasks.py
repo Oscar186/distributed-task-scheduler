@@ -1,6 +1,6 @@
 # show_tasks.py
 from app.database import SessionLocal
-from app.models import Task
+from app.models.job import Task
 
 db = SessionLocal()
 tasks = db.query(Task).all()
