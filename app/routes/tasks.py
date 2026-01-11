@@ -17,7 +17,7 @@ def create_task(task: TaskCreate, db: Session = Depends(get_db)):
 
     new_task = Job(
         name=task.name,
-        task_type=task.task_type,   # 👈 FIX
+        task_type=task.task_type, 
         payload=task.payload,
         run_at=task.run_at,
         status="PENDING"
